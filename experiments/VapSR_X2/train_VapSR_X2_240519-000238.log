@@ -1,0 +1,319 @@
+24-05-19 00:02:38.273 - INFO:   name: VapSR_X2
+  use_tb_logger: True
+  model: sr
+  distortion: sr
+  scale: 2
+  gpu_ids: [0]
+  network_G:[
+    which_model_G: VapSR
+    scale: 2
+    num_in_ch: 3
+    num_feat: 48
+    d_atten: 64
+    num_block: 20
+    num_out_ch: 3
+  ]
+  datasets:[
+    train:[
+      name: DIV2K
+      mode: LQGT_rcan
+      dataroot_GT: /home/data/disk2/wsq/Datasets/DIV2K/DIV2K_train_HR_sub/
+      dataroot_LQ: /home/data/disk2/wsq/Datasets/DIV2K/DIV2K_train_LR_bicubic/X2_sub/
+      use_shuffle: True
+      n_workers: 0
+      batch_size: 32
+      GT_size: 96
+      use_flip: True
+      use_rot: True
+      color: RGB
+      phase: train
+      scale: 2
+      data_type: img
+    ]
+    val:[
+      name: urban100
+      mode: LQGT_rcan
+      dataroot_GT: /home/data/disk2/wsq/Datasets/DIV2K/DIV2K_valid_HR/
+      dataroot_LQ: /home/data/disk2/wsq/Datasets/DIV2K/DIV2K_valid_LR_bicubic/X2/
+      phase: val
+      scale: 2
+      data_type: img
+    ]
+  ]
+  path:[
+    pretrain_model_G: None
+    strict_load: True
+    resume_state: None
+    root: /home/data/disk3/zl/code/paddle/VapSR_paddle
+    experiments_root: /home/data/disk3/zl/code/paddle/VapSR_paddle/experiments/VapSR_X2
+    models: /home/data/disk3/zl/code/paddle/VapSR_paddle/experiments/VapSR_X2/models
+    training_state: /home/data/disk3/zl/code/paddle/VapSR_paddle/experiments/VapSR_X2/training_state
+    log: /home/data/disk3/zl/code/paddle/VapSR_paddle/experiments/VapSR_X2
+    val_images: /home/data/disk3/zl/code/paddle/VapSR_paddle/experiments/VapSR_X2/val_images
+  ]
+  train:[
+    lr_G: 0.0001
+    lr_scheme: CosineAnnealingLR_Restart
+    beta1: 0.9
+    beta2: 0.999
+    niter: 1000000
+    warmup_iter: -1
+    T_period: [1000000]
+    restarts: [1000000]
+    restart_weights: [1]
+    eta_min: 1e-07
+    lr_gamma: 0.5
+    clear_state: 1000000
+    pixel_criterion: l2
+    pixel_weight: 1.0
+    manual_seed: 10
+    val_freq: 5000
+  ]
+  logger:[
+    print_freq: 100
+    save_checkpoint_freq: 500
+  ]
+  is_train: True
+  dist: False
+
+24-05-19 00:02:38.325 - INFO: Random seed: 10
+24-05-19 00:02:38.648 - INFO: Dataset [LQGTDataset_rcan - DIV2K] is created.
+24-05-19 00:02:38.649 - INFO: Number of train images: 32,592, iters: 1,019
+24-05-19 00:02:38.649 - INFO: Total epochs needed: 982 for iters 1,000,000
+24-05-19 00:02:38.650 - INFO: Dataset [LQGTDataset_rcan - urban100] is created.
+24-05-19 00:02:38.650 - INFO: Number of val images in [urban100]: 100
+24-05-19 00:02:40.301 - INFO: Network G structure: vapsr, with parameters: 329,236
+24-05-19 00:02:40.301 - INFO: vapsr(
+  (conv_first): Conv2D(3, 48, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (body): Sequential(
+    (0): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (1): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (2): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (3): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (4): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (5): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (6): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (7): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (8): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (9): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (10): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (11): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (12): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (13): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (14): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (15): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (16): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (17): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (18): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+    (19): VAB(
+      (proj_1): Conv2D(48, 64, kernel_size=[1, 1], data_format=NCHW)
+      (activation): GELU(approximate=False)
+      (atten_branch): Attention(
+        (pointwise): Conv2D(64, 64, kernel_size=[1, 1], data_format=NCHW)
+        (depthwise): Conv2D(64, 64, kernel_size=[5, 5], padding=2, groups=64, data_format=NCHW)
+        (depthwise_dilated): Conv2D(64, 64, kernel_size=[5, 5], padding=6, dilation=[3, 3], groups=64, data_format=NCHW)
+      )
+      (proj_2): Conv2D(64, 48, kernel_size=[1, 1], data_format=NCHW)
+      (pixel_norm): LayerNorm(normalized_shape=[48], epsilon=1e-05)
+    )
+  )
+  (conv_body): Conv2D(48, 48, kernel_size=[3, 3], padding=1, data_format=NCHW)
+  (upsampler): Sequential(
+    (0): Conv2D(48, 56, kernel_size=[3, 3], padding=1, data_format=NCHW)
+    (1): LeakyReLU(negative_slope=0.1)
+    (2): Conv2D(56, 12, kernel_size=[3, 3], padding=1, data_format=NCHW)
+    (3): PixelShuffle(upscale_factor=2)
+  )
+)
+24-05-19 00:02:40.306 - INFO: Model [SRModel] is created.
+24-05-19 00:02:40.328 - INFO: Start training from epoch: 0, iter: 0
