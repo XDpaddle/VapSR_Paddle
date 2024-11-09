@@ -1,15 +1,10 @@
 # VapSR_paddle
 
-Paddle 复现版本
-
-## 数据集
-
-分类之后训练集用于训练SR模块
-https://aistudio.baidu.com/aistudio/datasetdetail/106261
+Efficient Image Super Resolution using Vast Receptive Field Attention    Paddle 复现版本
+论文链接 https://arxiv.org/abs/2210.05960
 
 ## 训练模型
-链接：https://pan.baidu.com/s/1jf0UKI_wf7yRhwdA4AU5Kw 
-提取码：u9lr
+trans_weights/
 ## 训练步骤
 ### train sr
 ```bash
