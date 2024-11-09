@@ -16,9 +16,7 @@ https://aistudio.baidu.com/aistudio/datasetdetail/106261
 ```bash
 python train.py -opt config/train/train_vapsr_x2.yml
 ```
-```
 
-```
 ## 测试步骤
 ```bash
 python test.py -opt config/test/test_varsp_x2.yml
