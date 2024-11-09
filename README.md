@@ -10,25 +10,9 @@ trans_weights/
 ```bash
 python train.py -opt config/train/train_vapsr_x2.yml
 ```
-
 ## 测试步骤
 ```bash
 python test.py -opt config/test/test_varsp_x2.yml
 ```
-
-## 实验结果
-### 训练结果
-<p float="left">
-    <img src="figs/class_loss.png" width="300"/><img src="figs/FLOPs.png" width="300"/>
-</p>
-<p float="left">
-    <img src="figs/Percent.png" width="300"/><img src="figs/PSNR.png" width="300"/>
-</p>
-
-### 超分图片
-
-<p float="left">
-    <img src="figs/1201HR.png" width="300"/><img src="figs/1201LR.png" width="300"/><img src="figs/1201SR.png" width="300"/>
-</p>
 
 
