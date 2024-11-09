@@ -16,22 +16,14 @@ https://aistudio.baidu.com/aistudio/datasetdetail/106261
 ```bash
 python train.py -opt config/train/train_vapsr_x2.yml
 ```
-### train ClassSR
-```bash
-python train_ClassSR.py -opt config/train/train_ClassSR_RCAN.yml
 ```
-多卡仅需
-```bash
-python -m paddle.distributed.launch train.py --launcher fleet -opt config_file_path
-python -m paddle.distributed.launch train_ClassSR.py --launcher fleet -opt config_file_path
+
 ```
 ## 测试步骤
 ```bash
 python test.py -opt config/test/test_varsp_x2.yml
 ```
-```bash
-python test_ClassSR.py -opt config/test/test_ClassSR_RCAN.yml
-```
+
 ## 实验结果
 ### 训练结果
 <p float="left">
@@ -47,12 +39,4 @@ python test_ClassSR.py -opt config/test/test_ClassSR_RCAN.yml
     <img src="figs/1201HR.png" width="300"/><img src="figs/1201LR.png" width="300"/><img src="figs/1201SR.png" width="300"/>
 </p>
 
-## 复现指标
 
-|      | PSNR  | FLOPs | Percent |
-| ---- | ----- | ------------------ | ------------ |
-| 论文  | 26.39 | 21.22     | 65% |
-| Paddle  | 26.35 | 21.37     | 65.5% |
-## 参考资料
-
-- [Xiangtaokong/ClassSR](https://github.com/Xiangtaokong/ClassSR)
