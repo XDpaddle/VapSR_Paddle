@@ -17,5 +17,8 @@ python test.py -opt config/test/test_varsp_x2.yml
 ```
 ## 数据集
 ```bash
+DIV2K
+https://data.vision.ee.ethz.ch/cvl/DIV2K/
+Set5
 https://drive.google.com/drive/folders/1pRmhEmmY-tPF7uH8DuVthfHoApZWJ1QU
 ```
