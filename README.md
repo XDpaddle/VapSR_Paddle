@@ -15,5 +15,7 @@ python train.py -opt config/train/train_vapsr_x2.yml
 ```bash
 python test.py -opt config/test/test_varsp_x2.yml
 ```
-
-
+## 数据集
+```bash
+https://drive.google.com/drive/folders/1pRmhEmmY-tPF7uH8DuVthfHoApZWJ1QU
+```
